@@ -2,9 +2,10 @@
 
 require "function.php";
 
-$barang = query_nya("SELECT * FROM barang WHERE kategori_id = $_GET[kategori_id]");
-// $namaKategori = query_nya("SELECT nama_kategori FROM kategori Where kategori_id = $_GET[kategori_id]")[0]['nama_kategori'];
+$barang = query_nya("SELECT * FROM barang");
+$angka = 1;
 
+$kondisi_id = query_nya("SELECT kondisi_id FROM kondisi WHERE nama_kondisi = 'Baru'")[0]['kondisi_id'];
 
 ?>
 
@@ -67,39 +68,55 @@ $barang = query_nya("SELECT * FROM barang WHERE kategori_id = $_GET[kategori_id]
     </nav>
     <!-- Akhir Navbar -->
 
-    <!-- Tombol ADD -->
-
-    <!-- AkhirTombol ADD -->
-
     <!-- Barang -->
-    <section class="barang">
-      <div class="row justify-content-center me-5 ms-5">
-        <!-- <h3><?= $namaKategori ?></h3> -->
-        <?php foreach($barang as $b): ?>
-        <div class="col-md-3 mb-4">
-          <div class="card h-100" style="height: 0rem">
-            <img src="img/katalog/<?= $b['gambar'] ?>" class="card-img-top" alt="..." width="200px"/>
-            <div class="card-body">
-              <h5 class="card-title"><?= $b['nama_barang'] ?></h5>
-              <p class="card-text"><?= $b['deskripsi'] ?></p>
-            </div>
-            <ul class="list-group list-group-flush">
+    <section class="barang container justify-content-center">
+      <a href="tambah.php"> <button type="button" class="btn btn-info">Tambah</button></a>
+
+      <h4 class="text-center">Daftar Barang</h4>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Edit</th>
+            <th>Gambar</th>
+            <th>Kategori</th>
+            <th>Pabrik</th>
+            <th>Kondisi</th>
+            <th>Deskripsi</th>
+            <th>Nama Barang</th>
+            <th>Berat(gr)</th>
+            <th>Harga</th>
+            <th>Diskon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($barang as $b): ?>
+          <tr>
+            <td><?= $angka++ ?></td>
+            <?php $kategori = $b['kategori_id']; $kategori = query_nya("SELECT nama_kategori FROM kategori WHERE kategori_id = $kategori ")[0]['nama_kategori']?>
+            <?php $pabrik = $b['pabrik_id']; $pabrik = query_nya("SELECT nama_pabrik FROM pabrik WHERE pabrik_id = $pabrik ")[0]['nama_pabrik']?>
+            <?php $diskon = $b['diskon_id']; $diskon = query_nya("SELECT status FROM diskon WHERE diskon_id = $diskon ")[0]['status']?>
+            <td>
+              <a href="modif.php?id=<?= $b['barang_id']  ?>"><button type="button" class="btn btn-warning">modif</button></a>
+              <a href="hapus.php?id=<?= $b['barang_id']  ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus?')"><button type="button" class="btn btn-danger mt-1">hapus</button></a>
+            </td>
+            <td><img src="img/katalog/<?= $b['gambar']  ?>" width="150px" /></td>
+            <td><?=$kategori ?></td>
+            <td><?= $pabrik  ?></td>
             <?php 
               $kondisi = $b['kondisi_id'];
               $kondisi = query_nya("SELECT nama_kondisi FROM kondisi WHERE kondisi_id = '$kondisi'")[0]['nama_kondisi'];
               ?>
-              <li class="list-group-item"><?= $kondisi ?></li>
-              <li class="list-group-item"><?= $b['berat'] ?>⠀gram</li>
-              <!-- <li class="list-group-item"><h6>Harga</h6><?= $b['harga'] ?></li> -->
-            </ul>
-            <div class="card-body">
-              <button type="button" class="btn btn-outline-secondary" style="float:right;">Beli</button>
-              <h6 style="float: left;" class="ms-1 mt-1">Rp.<?= $b['harga']  ?></h6>
-            </div>
-          </div>
-        </div>
-        <?php endforeach ?>
-      </div>
+            <td><?= $kondisi  ?></td>
+            <td><?= $b['deskripsi']  ?></td>
+            <td><?= $b['nama_barang']  ?></td>
+            <td><?= $b['berat']  ?></td>
+            <td><?= $b['harga']  ?></td>
+            <td><?= $diskon  ?></td>
+          </tr>
+          <?php endforeach ?>
+        </tbody>
+      </table>
     </section>
     <!-- Akhir Barang -->
 
@@ -111,10 +128,8 @@ $barang = query_nya("SELECT * FROM barang WHERE kategori_id = $_GET[kategori_id]
   </body>
 </html>
 
-<!-- <script type="text/javascript">
+<script>
   $(document).ready(function () {
-    $(".carousel").carousel({
-      interval: 8000,
-    });
+    $(".table").DataTable();
   });
-</script> -->
+</script>

@@ -16,3 +16,10 @@ section {
 .navbar-brand img {
   border-image: 1px solid black;
 }
+
+.card {
+  transition: 0.5s;
+}
+.card:hover {
+  transform: scale(1.02, 1.02);
+}
