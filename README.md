@@ -1,7 +1,7 @@
 <h1>Wibunubistore</h1>
 <hr>
 <br>
-<p>Website katalog sederhana merch jejepangan</p>
+<h3>Website katalog sederhana merch jejepangan</h3>
 <p>Menggunakan html+css+bootstrap5+js+jquery+php+mysql</p>
 <br>
-wibunubistore.infinityfreeapp.com
+http://wibunubistore.infinityfreeapp.com/
